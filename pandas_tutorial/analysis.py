@@ -79,3 +79,50 @@ print('\n')
 
 print('Making changest to data 2')
 df['Total Points'] = (df.iloc[:, 4:10]).sum(axis=1) # df.iloc[rows, columns] lists all values specified; .sum(axis=1) adds horizontal rows, .sum(axis=0) adds vertical rows
+
+
+cols = list(df.columns) # make each of the columns in the table a list
+df = df[cols[0:4] + [cols[-1]] + cols[4:12]] # change order of last column and redefine dataframe
+print(df.head(5))
+print('\n')
+
+# Saving modified file
+print("Saving modified file")
+# df.to_csv('modified.csv', index=False) # index=False removes the default addition of an index column in modified.csv
+# df.to_excel('modified.xlsx', index=False)
+
+# Filtering data
+print("Filtering Data")
+new_df = df.loc[df['Type 1'] == 'Grass'] # find column where 'Type 1' equal to 'Grass' and print value at location
+print(new_df.head(5))
+new_df = new_df.reset_index(drop=True, inplace=True) # resets the index of data modifications; drop=True drops the default index column that is added in
+print('\n')
+
+print(df.loc[df['Name'].str.contains('Mega')]) # searches for column containing 'Name' that has 'Mega'
+print('\n')
+
+# Regexing
+import re
+print("Regex Library")
+print(df.loc[df['Type 1'].str.contains('fire|grass', flags=re.I, regex=True)])
+# if column of 'Type 1' string contains the words "fire" or "grass", ignoring the lower/upper case, then print out all values that fit this
+print('\n')
+
+print(df.loc[df['Name'].str.contains('^pi[a-z]*', flags=re.I, regex=True)])
+# find all names that starts with the letters 'pi' and ignore lower/upper case, and print them
+print('\n')
+
+# Conditional Changes
+df.loc[df['Type 1'] == 'Fire', 'Type 1'] = 'Flamer'
+# if 'Type 1' is fire, then change all 'Type 1' into 'Flamer'
+
+df.loc[df['Type 1'] == 'Fire', 'Legendary'] = 'True'
+# if 'Type 1' is fire, then change 'Legendary' column type to 'True'
+
+# Aggregate Statistics
+print("STATISTICS")
+print('\n')
+print(df.groupby(['Type 1']).mean()) # find average of all values by 'Type 1'
+print('\n')
+
+df.groupby(['Type 1'])
