@@ -1,7 +1,6 @@
+import pandas as pd
 # source ./env/bin/activate # command line past to activate virtual environment
 # change directory: cd /Users/thomasnguyen/Desktop/Programming/Python/ieee
-
-import pandas as pd
 
 print("Reading Excel file...")
 print("Year: 2017-2018...")
@@ -15,32 +14,71 @@ print("The available columns are:")
 print(*cols, sep=', ') # *cols is direct addressing which removes the syntax of a list
 print('\n')
 
-# Determine membership classification composition
-class_list = df['Classification (for statistical purposes only)'].to_list() # converts column into a list
+# Determine membership classification composition & number of points 
+class_list = df['Classification (for statistical purposes only)'].to_list() # converts membership classification column into a list
+points_list = df['Total points'].to_list() # converts total points column into a list
 fm = 0
 sm = 0
 jn = 0
 sr = 0
 gd = 0
+fm_tp = 0.0
+sm_tp = 0.0
+jn_tp = 0.0
+sr_tp = 0.0
+gd_tp = 0.0
 class_list_total = 0
+
+# Error encountered (resolved):
+# print(points_list,"\n") # What is in the element of the list of an empty excel cell? Answer: 'nan'
+# print(type(points_list[3])) # What type of variable is 'nan'? Answer: float --> must convert element to string to use ==
+for i in range(len(points_list)):
+    if str(points_list[i]) == 'nan':
+        points_list[i] = 0
+
 for i in range(len(class_list)):
     if class_list[i] == 'Freshman':
         fm = fm + 1
+        fm_tp = fm_tp + points_list[i]
     if class_list[i] == 'Sophomore':
         sm = sm + 1
+        sm_tp = sm_tp + points_list[i]
     if class_list[i] == 'Junior':
         jn = jn + 1
+        jn_tp = jn_tp + points_list[i]
     if class_list[i] == 'Senior':
         sr = sr + 1
+        sr_tp = sr_tp + points_list[i]
     if class_list[i] == 'Graduate':
         gd = gd + 1
+        gd_tp = gd_tp + points_list[i]
 
 print("Number of freshmen:",fm)
 print("Number of sophomores:",sm)
 print("Number of juniors:",jn)
 print("Number of seniors:",sr)
 print("Number of graduates:",gd)
-print("Total number of members:",(fm+sm+jn+sr+gd))
+print("TOTAL NUMBER OF MEMBERS:",(fm+sm+jn+sr+gd))
+print('\n')
+
+print("Total points for freshmen:",fm_tp)
+print("Total ponits for sophmores:",sm_tp)
+print("Total points for juniors:",jn_tp)
+print("Total points for seniors:",sr_tp)
+print("Total points for graduates:",gd_tp)
+max_p = max(fm_tp, sm_tp, jn_tp, sr_tp, gd_tp)
+most_active_class = ''
+if max_p == fm_tp:
+    most_active_class = 'FRESHMEN'
+if max_p == sm_tp:
+    most_active_class = 'SOPHOMORES'
+if max_p == jn_tp:
+    most_active_class = 'JUNIORS'
+if max_p == sr_tp:
+    most_active_class = 'SENIORS'
+if max_p == gd_tp:
+    most_active_class = 'GRADUATES'
+print("MOST ACTIVE CLASS:",most_active_class)
 print('\n')
 
 # Determine membership major composition
