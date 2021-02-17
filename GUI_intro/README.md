@@ -3,6 +3,7 @@ Introduction to GUI with Python!
 Prototype for GUI Testing Application for EsurgiBiotech
 
 Goal: Automate testing process of Biostabilizer by providing a user-friendly interface that is less cluttered and can provide helpful procedures
+
 Current issue: Using an excel spreadsheet that is extremely cluttered. Offers non-linear troubleshooting (For example, if there is an issue with Step 1, QA engineer must scroll down to the index of Step 1 in the "Potential fixes" section.
 
 Design Plan:
